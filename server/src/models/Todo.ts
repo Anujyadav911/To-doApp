@@ -18,11 +18,12 @@ const TodoSchema = new Schema<ITodo>(
     // Remap _id → id and strip __v so the client never has to know about Mongo internals
     toJSON: {
       virtuals: true,
-      transform: (_doc, ret) => {
-        ret.id = ret._id.toString();
-        delete ret._id;
-        delete ret.__v;
-        return ret;
+      transform: (_doc, ret: Record<string, unknown>) => {
+        ret['id'] = String(ret['_id']);
+        const { _id: _removed1, __v: _removed2, ...rest } = ret;
+        void _removed1;
+        void _removed2;
+        return rest;
       },
     },
   }
