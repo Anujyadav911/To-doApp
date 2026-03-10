@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { Todo, CreateTodoDto, UpdateTodoDto } from '../types';
 
-const BASE = '/api/todos';
+// In dev, Vite proxies /api → localhost:5000. In production, point to the deployed backend.
+const BASE = `${import.meta.env.VITE_API_URL ?? ''}/api/todos`;
 
 export const getAllTodos = async (): Promise<Todo[]> => {
   const { data } = await axios.get<Todo[]>(BASE);
